@@ -1,4 +1,3 @@
-
 # Multiplicacion Matriz por Vector usando mapreduce
 # Tipo 1: el caso en que el vector v cabe dentro de la memoria RAM
 

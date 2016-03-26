@@ -1,5 +1,5 @@
 ## Comando para establecer el directorio de trabajo
-setwd("/media/716D-15A9/Sincronizar/Docencia/TopicosAvanzadosCD/Clases/Laboratorio1")
+setwd("C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matriz-matriz-con-mapreduce-grupo-hej")
 
 ## Inicializo las variables de entorno de hadoop
 Sys.setenv("HADOOP_PREFIX"="/opt/hadoop")
@@ -15,7 +15,7 @@ library(rmr2)
 ignore <- rmr.options(backend="local") # Opciones "local" o "hadoop"
 
 ## Cargo la función de multiplicación de Matriz x Vector, Tipo 1
-source("prod_Mv_type1.R")
+source("src/prod_Mv_type1.R")
 
 
 
@@ -27,11 +27,11 @@ v <- 1:3
 v
 w <- M %*% v
 w
-A <- read.csv("tblAkv3x3.csv")
+A <- read.csv("data/tblAkv3x3.csv")
 A
 A <- to.dfs(A)
 from.dfs(A)
-x <- read.csv("tblxkv3.csv")
+x <- read.csv("data/tblxkv3.csv", header = FALSE)
 x
 x = to.dfs(x)
 from.dfs(x)
@@ -44,11 +44,11 @@ v <- 1:10
 v
 w <- M %*% v
 w
-A <- read.csv("tblAkv10x10ident.csv")
+A <- read.csv("data/tblAkv10x10ident.csv")
 A
 A <- to.dfs(A)
 from.dfs(A)
-x <- read.csv("tblxkv10.csv")
+x <- read.csv("data/tblxkv10.csv")
 x
 x = to.dfs(x)
 from.dfs(x)
@@ -64,7 +64,7 @@ v <- 1:10
 v
 w <- M %*% v
 w
-A <- read.csv("tblAkv10x10.csv")
+A <- read.csv("data/tblAkv10x10.csv")
 A
 A <- to.dfs(A)
 from.dfs(A)
