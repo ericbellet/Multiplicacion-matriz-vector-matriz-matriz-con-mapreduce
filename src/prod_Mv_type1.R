@@ -1,3 +1,4 @@
+
 # Multiplicacion Matriz por Vector usando mapreduce
 # Tipo 1: el caso en que el vector v cabe dentro de la memoria RAM
 
@@ -27,3 +28,4 @@ MultMV_1.mr <- function( M, V) {
   C = values( from.dfs( calc ) ) 
   C
 }
+

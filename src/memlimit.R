@@ -20,3 +20,6 @@ memlimit <- function(x){
 
 #reports the current or maximum memory allocation of the malloc function used in this version of R.
 #memory.size()
+
+
+#Calculo la cantidad de memoria minima para hacer una operacion:

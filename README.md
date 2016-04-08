@@ -10,7 +10,7 @@
 
 
 ## Inicio rápido
-* Descargar rmr-3.3.1 de Windowshttps://github.com/RevolutionAnalytics/RHadoop/wiki/Downloads e instalar el .zip en RStudio.
+* Descargar rmr-3.3.1 de Windows (https://github.com/RevolutionAnalytics/RHadoop/wiki/Download) e instalar el .zip en RStudio.
 
 ### Contenido
 * Carpeta doc -> Enunciado.pdf
