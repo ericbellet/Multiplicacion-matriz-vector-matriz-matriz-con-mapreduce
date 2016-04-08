@@ -1,3 +1,5 @@
+library(parallel)
+
 #Multiplicación Matriz-Matriz.
 #Parámetros:
 
@@ -12,59 +14,77 @@
 #-límite de memoria(int): tamaño límite (en bytes) que puede ocupar en la sesión de r 
 #donde ejecutará su función, por ejemplo: 480. 
 
-library(rmr2) 
-ignore <- rmr.options(backend="local") # Opciones "local" o "hadoop"
+
+chunks <- function(n) { 
+  
+  return(n^2) 
+
+}
+
+
 
 setwd("C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matriz-matriz-con-mapreduce-grupo-hej")
 
+A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
+B <- read.csv("data/tblAkv3x3.csv", header = FALSE)
+N <- nrow(A) #O 3
 
-# Multiplicacion Matriz por matriz usando mapreduce
-# Tipo 1: el caso en que la matriz cabe dentro de la memoria RAM
-
-productmm <- function(A, B) {
-  
-  d <- values(from.dfs(B))
-  
-  f <- function(x){
-    
-    return(x[3]*d[x[2],2])
-    
-  }
-  
-  map <- function(.,m) {
-    
-    i <- m[1]
-    m <- as.matrix(m)
-    valor <- apply(m,1,f)
-    print(valor)
-    valor <- as.data.frame(as.numeric(as.character(valor)))
-    
-    return( keyval(i, valor) )
-  }
-  
-  reduce <- function(i, xi) { 
-    print(xi)
-    keyval(i, sum(xi))
-  }
-  
-  calc <- mapreduce(input=M, 
-                    #output=output, 
-                    #input.format="text", 
-                    map=map, 
-                    reduce=reduce,
-                    verbose = FALSE)
-  C = values( from.dfs( calc ) ) 
-  C
+#Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
+# es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
+# el resultado.
+#************************************************************************
+memoria <- 1888
+#************************************************************************
+if (memoria > memory.limit()){
+  print("La maquina no posee tanta memoria, por lo tanto no se puede realizar las operaciones
+        con esta cantidad de memoria.")
 }
 
-#-------------------------
-A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
+#Minmemoria <- Una valor matriz  + Un valor matriz    + El maximo resultado de una multiplicacion
+minmemoria <- object.size(A[N,]) + object.size(B[N,]) + object.size(max(A[,ncol(A)]) * max(B[,ncol(B)]))
 
-A <- to.dfs(A)
+memoria <- memlimit(memoria)
+if (memoria < minmemoria){
+  print("No hay suficiente memoria para realizar una operacion")
+}
 
-B <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 
-B = to.dfs(B)
+#Calculemos cuantos chunks por columna de la primera matriz podemos tener.
+chunks <- function(n) { 
+  
+  return(n^2) 
+  
+}
 
-y <- productmm(A,B)
+totalchunks <- function(memoria, A, B) { 
+  # Tenemos que tener memoria reservada para el resultado y un valor de ambas matrices.
+  total <-  object.size(A[N,]) + object.size(B[N,]) + object.size(max(A[,ncol(A)]) * max(B[,ncol(B)]))
+  
+  #Minimo 1 chunk debe tener un valor.
+  chunksT <- 1
+  # Calculamos cuantos valores podemos tener en un chunk.
+  while (total < memoria){
+    #Calculamos si el chunk puede tener otro valor.
+    total <- total + object.size(A[N,])
+    if (total > memoria){
+      #El chunk no puede tener mas valores
+      break
+    }
+    
+  }
+  
+  return(n^2) 
+  
+}
 
+values <- 1:10
+
+## Number of workers (R processes) to use:
+numWorkers <-detectCores(all.tests = FALSE, logical = TRUE)
+## Set up the 'cluster'
+cl <- makeCluster(numWorkers, type = "PSOCK")
+## Parallel calculation (parLapply):
+res <- parLapply(cl, values, chunks)
+## Shut down cluster
+stopCluster(cl)
+print(unlist(res))

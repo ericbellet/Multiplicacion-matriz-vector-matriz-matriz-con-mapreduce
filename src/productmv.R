@@ -1,21 +1,20 @@
-setwd("C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matriz-matriz-con-mapreduce-grupo-hej")
 #Multiplicación Matriz-Vector.
 
 productmv <- function(A, x, N, memoria) {
-#Parámetros:
+  #Parámetros:
   
   #-matriz(string): ruta del archivo que contiene la matriz(cuadrada) a multiplicar,
   #por ejemplo: '. . . /tblAkv10x10.csv'. 
-    
+  
   #-vector(string): ruta del archivo que contiene el vector a multiplicar, 
   #por ejemplo: . . . /tblxkv10.csv'. 
-    
+  
   #-N(int): dimensión asociada a la multiplicación, por ejemplo: 10. 
-    
+  
   #-memorylimit(int): tamaño límite (en bytes) que puede ocupar en la sesión de r 
   #donde ejecutará su función, por ejemplo: 480. 
   
-#Retorna el resultado de la multiplicacion 
+  #Retorna el resultado de la multiplicacion 
   
   #*********************************************************************************
   
@@ -68,7 +67,7 @@ productmv <- function(A, x, N, memoria) {
   
   return(resultado)
   
-
+  
 }
 #******************************************************
 
@@ -138,5 +137,5 @@ reduce <- function(N){
   }
   remove(z)
   return(m)
- 
+  
 }
