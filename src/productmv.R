@@ -64,8 +64,9 @@ productmv <- function(A, x, N, memoria) {
   remove(A)
   remove(x)
   
-  z <- read.csv("tmp/archivotemporal.csv", header = FALSE)
-  return(z)
+  resultado <- reduce(N)
+  
+  return(resultado)
   
 
 }
@@ -106,7 +107,7 @@ chunks <- function(A, x, N, chunksF, indice){
 }
 
 #*********************************************************************************
-
+#                               MAP
 #*********************************************************************************
 map <- function(A, x, N, i, j, cont){
   
@@ -117,4 +118,25 @@ map <- function(A, x, N, i, j, cont){
     
   }
   
+}
+
+#*********************************************************************************
+#                               REDUCE
+#*********************************************************************************
+reduce <- function(N){
+  z <- read.csv("tmp/archivotemporal.csv", header = FALSE)
+  m <- matrix(0,nrow = N)
+  #Calculamos cuantos reducers se necesitan
+  reducers <- 1:N
+  
+  for (i in 1:N) {
+    k <- reducers[i]
+    for (h in 1:N) {
+      m[i] <- z[k,1] + m[i]
+      k <- k + N
+    }
+  }
+  remove(z)
+  return(m)
+ 
 }
