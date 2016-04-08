@@ -19,7 +19,7 @@ source("src/prod_Mv_type1.R")
 source("src/productmv.R")
 
 A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
-A
+object.size(A[1,])
 A <- to.dfs(A)
 
 x <- read.csv("data/tblxkv3.csv", header = FALSE)
