@@ -141,7 +141,8 @@ minmemoria <- object.size(A[N,])*N + object.size(B) + (object.size(max(A[,ncol(A
 
 memoria <- memlimit(memoria)
 if (memoria < minmemoria){
-  print("No hay suficiente memoria para realizar una operacion")
+  print("No hay suficiente memoria para realizar una operacion, sin embargo liberaremos
+        memoria para poder ejecutar la operacion")
 }
 
 #Llamo a producmv
@@ -178,7 +179,8 @@ minmemoria <- object.size(A[N,])*N + object.size(B) + (object.size(max(A[,ncol(A
 
 memoria <- memlimit(memoria)
 if (memoria < minmemoria){
-  print("No hay suficiente memoria para realizar una operacion")
+  print("No hay suficiente memoria para realizar una operacion, sin embargo liberaremos
+        memoria para poder ejecutar la operacion")
 }
 
 #Llamo a producmv
@@ -193,6 +195,9 @@ unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 #-------------------------------------------------------------------------
 #-------------------------------CON MEMORIA-------------------------------
 #-------------------------------------------------------------------------
+
+
+
 #***********************CON MEMORIA MATRIZ*VECTOR  3X3*********************************
 A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 x <- read.csv("data/tblxkv3.csv", header = FALSE)
@@ -329,7 +334,8 @@ minmemoria <- object.size(A[N,])*N + object.size(B) + (object.size(max(A[,ncol(A
 
 memoria <- memlimit(memoria)
 if (memoria < minmemoria){
-  print("No hay suficiente memoria para realizar una operacion")
+  print("No hay suficiente memoria para realizar una operacion, sin embargo liberaremos
+        memoria para poder ejecutar la operacion")
 }
 
 #Llamo a producmv
@@ -366,7 +372,8 @@ minmemoria <- object.size(A[N,])*N + object.size(B) + (object.size(max(A[,ncol(A
 
 memoria <- memlimit(memoria)
 if (memoria < minmemoria){
-  print("No hay suficiente memoria para realizar una operacion")
+  print("No hay suficiente memoria para realizar una operacion, sin embargo liberaremos
+        memoria para poder ejecutar la operacion")
 }
 
 #Llamo a producmv
