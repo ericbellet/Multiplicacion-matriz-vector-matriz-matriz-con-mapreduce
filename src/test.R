@@ -5,7 +5,7 @@ direccion <- "C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matri
 setwd(direccion)
 source("src/memlimit.R")
 source("src/productmv.R")
-source("src/productmvSINMEMORIA.R")
+#source("src/productmvSINMEMORIA.R")
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 #***********************SIN MEMORIA MATRIZ*VECTOR 3X3*********************************
 A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
@@ -40,7 +40,7 @@ N <- nrow(x)
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
 #************************************************************************
-memoria <- 1760 + 1760 + 1760
+memoria <- 1760 + 1760 
 #************************************************************************
 
 if (memoria > memory.limit()){
@@ -74,7 +74,7 @@ N <- nrow(x)
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
 #************************************************************************
-memoria <- -1
+memoria <- 1888
 #************************************************************************
 
 if (memoria > memory.limit()){

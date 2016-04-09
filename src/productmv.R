@@ -1,3 +1,4 @@
+setwd("C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matriz-matriz-con-mapreduce-grupo-hej")
 #Multiplicación Matriz-Vector.
 
 productmv <- function(A, x, N, memoria) {
@@ -50,12 +51,14 @@ productmv <- function(A, x, N, memoria) {
         map(A, x, N, indice, j, cont)
         indice <- indice + cont
         
-        rest <- rest + 1
+        rest <- rest + cont
         acum2 <- cont + acum2
       }
       
     }#endfor
-    indice <- indice + N
+    #indice <- indice + 1
+    indice <- indice + N  ##puede ser porque le suma n a la i?
+   
     j <- j + 1
   }#end while que recorre todas las filas de la matriz.  
   
@@ -63,9 +66,8 @@ productmv <- function(A, x, N, memoria) {
   remove(A)
   remove(x)
   
-  resultado <- reduce(N)
   
-  return(resultado)
+  return(reduce(N))
   
   
 }
@@ -109,9 +111,10 @@ chunks <- function(A, x, N, chunksF, indice){
 #                               MAP
 #*********************************************************************************
 map <- function(A, x, N, i, j, cont){
-  
+  #i<-7 #4= 5-1,8-2=6,11-3=8 ,
   for (k in i:((i+cont)-1)) {
     resultado <- A[k, ncol(A)] * x[j, ncol(x)]
+    
     write.table(resultado, file = "tmp/archivotemporal.csv", row.names = FALSE, 
                 col.names = FALSE, sep = ",", append = T)
     
