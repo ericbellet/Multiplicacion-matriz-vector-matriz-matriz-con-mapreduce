@@ -4,20 +4,20 @@
 direccion <- "C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matriz-matriz-con-mapreduce-grupo-hej"
 setwd(direccion)
 source("src/memlimit.R")
-source("src/productmv.R")
-source("src/productmm.R")
+
+
 #source("src/productmvSINMEMORIA.R")
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 
 #-------------------------------------------------------------------------
-#-------------------------------SIN MEMORIA-------------------------------
+#-------------------------------SIN MANEJO DE MEMORIA-------------------------------
 #-------------------------------------------------------------------------
 
-#***********************SIN MEMORIA MATRIZ*VECTOR  3X3*********************************
+#***********************SIN MANEJO DE MEMORIA MATRIZ*VECTOR  3X3*********************************
 A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 x <- read.csv("data/tblxkv3.csv", header = FALSE)
 N <- nrow(x)
-
+source("src/productmv.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -47,11 +47,11 @@ resultadomv
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 
 
-#***********************SIN MEMORIA MATRIZ*VECTOR  10X10*********************************
+#***********************SIN MANEJO DE MEMORIA MATRIZ*VECTOR  10X10*********************************
 A <- read.csv("data/tblAkv10x10.csv", header = FALSE)
 x <- read.csv("data/tblxkv10.csv", header = FALSE)
 N <- nrow(x)
-
+source("src/productmv.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -81,12 +81,12 @@ unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 
 
 
-#***********************SIN MEMORIA MATRIZ*MATRIZ 3X3*********************************
+#***********************SIN MANEJO DE MEMORIA MATRIZ*MATRIZ 3X3*********************************
 
 A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 B <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 N <- 3
-
+source("src/productmm.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -114,7 +114,7 @@ resultadomm
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 
 
-#***********************SIN MEMORIA MATRIZ*MATRIZ 10X10*********************************
+#***********************SIN MANEJO DE MEMORIA MATRIZ*MATRIZ 10X10*********************************
 
 M <- matrix(1:100,ncol=10, byrow=TRUE)
 w <- M %*% M
@@ -124,7 +124,7 @@ w <- M %*% M
 A <- read.csv("data/tblAkv10x10.csv", header = FALSE)
 B <- read.csv("data/tblAkv10x10.csv", header = FALSE)
 N <- 10
-
+source("src/productmm.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -161,7 +161,7 @@ w <- M %*% M
 A <- read.csv("data/tblAkv10x10.csv", header = FALSE)
 B <- read.csv("data/tblAkv10x10ident.csv", header = FALSE)
 N <- 10
-
+source("src/productmm.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -197,7 +197,7 @@ unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 x <- read.csv("data/tblxkv3.csv", header = FALSE)
 N <- nrow(x)
-
+source("src/productmv.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -231,7 +231,7 @@ unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 A <- read.csv("data/tblAkv10x10.csv", header = FALSE)
 x <- read.csv("data/tblxkv10.csv", header = FALSE)
 N <- nrow(x)
-
+source("src/productmv.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -274,7 +274,7 @@ w
 A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 B <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 N <- 3
-
+source("src/productmm.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -312,7 +312,7 @@ w <- M %*% M
 A <- read.csv("data/tblAkv10x10.csv", header = FALSE)
 B <- read.csv("data/tblAkv10x10.csv", header = FALSE)
 N <- 10
-
+source("src/productmm.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
@@ -349,7 +349,7 @@ w <- M %*% M
 A <- read.csv("data/tblAkv10x10.csv", header = FALSE)
 B <- read.csv("data/tblAkv10x10ident.csv", header = FALSE)
 N <- 10
-
+source("src/productmm.R")
 #Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
 # es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
 # el resultado.
