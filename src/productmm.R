@@ -1,5 +1,6 @@
-library(parallel)
+setwd("C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matriz-matriz-con-mapreduce-grupo-hej")
 
+productmm <- function(A, B, N, memoria) {
 #Multiplicación Matriz-Matriz.
 #Parámetros:
 
@@ -15,76 +16,118 @@ library(parallel)
 #donde ejecutará su función, por ejemplo: 480. 
 
 
-chunks <- function(n) { 
+  chunksF <- N
+  cont <- chunks(A, B, N, chunksF, 1)
+  chunksF <- N - cont
   
-  return(n^2) 
+
+      indice <- 1
+      for (p in 1:N) {
+      
+          i <- indice
+          indice2 <- 1
+          for (k in 1:N) {
+            i <- indice
+            for (h in indice2:((indice2 +N)-1)) {
+              
+              if (cont == N){
+                chunk <-  list(A[i,ncol(A)], B[h,ncol(B)])
+                map(chunk)
+                
+                i <- i + N
+              }else{
+                chunk <-  list(A[i,ncol(A)], B[h,ncol(B)])
+                map(chunk)
+                
+                i <- i + N
+                remove(chunk)
+                cont <- cont + 1
+              }
+            } 
+            indice2 <- indice2 + N
+          } 
+          indice <- indice + 1
+           # map(chunk)
+            #remove(chunk)
+     
+    }
+ 
+return(reduce(N))
+
 
 }
 
-
-
-setwd("C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matriz-matriz-con-mapreduce-grupo-hej")
-
-A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
-B <- read.csv("data/tblAkv3x3.csv", header = FALSE)
-N <- nrow(A) #O 3
-
-#Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
-# es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
-# el resultado.
-#************************************************************************
-memoria <- 1888
-#************************************************************************
-if (memoria > memory.limit()){
-  print("La maquina no posee tanta memoria, por lo tanto no se puede realizar las operaciones
-        con esta cantidad de memoria.")
-}
-
-#Minmemoria <- Una valor matriz  + Un valor matriz    + El maximo resultado de una multiplicacion
-minmemoria <- object.size(A[N,]) + object.size(B[N,]) + object.size(max(A[,ncol(A)]) * max(B[,ncol(B)]))
-
-memoria <- memlimit(memoria)
-if (memoria < minmemoria){
-  print("No hay suficiente memoria para realizar una operacion")
-}
-
-
-#Calculemos cuantos chunks por columna de la primera matriz podemos tener.
-chunks <- function(n) { 
+#*********************************************************************************
+#Calculamos cuantas operaciones podemos hacer utilizando la memoria indicada.
+#*********************************************************************************
+chunks <- function(A, B, N, chunksF, indice){
+  #********************************************************
+  #Division de chunks utilizando la memoria.
+  #********************************************************
   
-  return(n^2) 
+  #tamres es el tamano necesario para guardar un resultado.
+  tamres <- (object.size(max(A[,ncol(A)]) * max(B[,ncol(B)])))*N
   
-}
-
-totalchunks <- function(memoria, A, B) { 
-  # Tenemos que tener memoria reservada para el resultado y un valor de ambas matrices.
-  total <-  object.size(A[N,]) + object.size(B[N,]) + object.size(max(A[,ncol(A)]) * max(B[,ncol(B)]))
+  #tamcol es el size de un valor del vector.
+  tamcol <- object.size(B[N,])*N
   
-  #Minimo 1 chunk debe tener un valor.
-  chunksT <- 1
-  # Calculamos cuantos valores podemos tener en un chunk.
-  while (total < memoria){
-    #Calculamos si el chunk puede tener otro valor.
-    total <- total + object.size(A[N,])
-    if (total > memoria){
-      #El chunk no puede tener mas valores
+  
+  
+  #Acumula la cantidad de memoria que se puede utilizar
+  acum <- 0
+  #Cuenta cuantas operaciones se pueden hacer
+  cont <- 0
+  for (i in indice:((indice + chunksF)-1)) {
+    
+    acum <- object.size(A[i,])*N  + tamres  + tamcol + acum
+    
+    if (acum > memoria){
+      
       break
     }
+    #Cuento cuantos valores  puedo utilizar.
+    cont <- cont + 1
     
   }
-  
-  return(n^2) 
-  
+  return(cont)
 }
 
-values <- 1:10
-
-## Number of workers (R processes) to use:
-numWorkers <-detectCores(all.tests = FALSE, logical = TRUE)
-## Set up the 'cluster'
-cl <- makeCluster(numWorkers, type = "PSOCK")
-## Parallel calculation (parLapply):
-res <- parLapply(cl, values, chunks)
-## Shut down cluster
-stopCluster(cl)
-print(unlist(res))
+#*********************************************************************************
+#                               MAP
+#*********************************************************************************
+map <- function(chunk){
+  resultado <- unlist(chunk[1]) * unlist(chunk[2])
+  write.table(resultado, file = "tmp/archivotemporal.csv", row.names = FALSE, 
+              col.names = FALSE, sep = ",", append = T)
+  
+}
+  
+    
+#*********************************************************************************
+#                               REDUCE
+#*********************************************************************************
+reduce <- function(N){
+  z <- read.csv("tmp/archivotemporal.csv", header = FALSE)
+  m <- matrix(0,nrow = N)
+  #Calculamos cuantos reducers se necesitan
+  reducers <- 1:N
+  w <- 1
+  acum <- 0
+  for (i in 1:(N*N)) {
+    ind <- 1
+    acum <- 0
+    for (j in ind:(ind +N)-1) {
+      
+      acum <- z[j] + acum
+    }
+    ind <- ind + N
+    m[i, K] <- acum  
+  }
+  
+  
+  remove(z)
+  return(m)
+  
+}
+  
+  

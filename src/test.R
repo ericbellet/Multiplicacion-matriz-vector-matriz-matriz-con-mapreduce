@@ -5,6 +5,7 @@ direccion <- "C:/Users/Eric/Desktop/MapReduce/multiplicacion-matriz-vector-matri
 setwd(direccion)
 source("src/memlimit.R")
 source("src/productmv.R")
+source("src/productmm.R")
 #source("src/productmvSINMEMORIA.R")
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 #***********************SIN MEMORIA MATRIZ*VECTOR 3X3*********************************
@@ -94,5 +95,39 @@ if (memoria < minmemoria){
 resultadomv <- productmv(A, x, N, memoria)
 cat("El resultado de A*x 10x10 con memoria es: " )
 resultadomv
+#Borro el archivo temporal.
+unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
+
+
+
+#***********************CON MEMORIA MATRIZ*MATRIZ 3X3*********************************
+
+A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
+B <- read.csv("data/tblAkv3x3.csv", header = FALSE)
+N <- 3 
+
+#Introduzca la memoria, recuerde que la memoria minima debe permitir hacer una operacion,
+# es decir tomar por lo menos un valor de la matriz y un valor del vector, y poder guardar
+# el resultado.
+#************************************************************************
+memoria <- 5664 
+#************************************************************************
+if (memoria > memory.limit()){
+  print("La maquina no posee tanta memoria, por lo tanto no se puede realizar las operaciones
+        con esta cantidad de memoria.")
+}
+
+#Minmemoria <- Una fila de la matriz  + Una columna de la matriz    + El maximo resultado de una multiplicacion n veces
+minmemoria <- object.size(A[N,])*N + object.size(B[N,])*N + (object.size(max(A[,ncol(A)]) * max(B[,ncol(B)])))*N
+
+memoria <- memlimit(memoria)
+if (memoria < minmemoria){
+  print("No hay suficiente memoria para realizar una operacion")
+}
+
+#Llamo a producmv
+resultadomm <- productmm(A, B, N, memoria)
+cat("El resultado de A*B 3x3 con memoria es: " )
+resultadomm
 #Borro el archivo temporal.
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
