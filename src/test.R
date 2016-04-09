@@ -40,7 +40,7 @@ if (memoria < minmemoria){
 
 #Llamo a producmv
 resultadomv <- productmv(A, x, N, memoria)
-cat("El resultado de A*x 3x3 con memoria es: " )
+cat("El resultado de A*x 3x3 sin manejo de memoria es: " )
 resultadomv
 
 #Borro el archivo temporal.
@@ -74,7 +74,7 @@ if (memoria < minmemoria){
 
 #Llamo a producmv
 resultadomv <- productmv(A, x, N, memoria)
-cat("El resultado de A*x 10x10 con memoria es: " )
+cat("El resultado de A*x 10x10 sin manejo de memoria es: " )
 resultadomv
 #Borro el archivo temporal.
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
@@ -108,7 +108,7 @@ if (memoria < minmemoria){
 
 #Llamo a producmv
 resultadomm <- productmm(A, B, N, memoria)
-cat("El resultado de A*B 3x3 con memoria es: " )
+cat("El resultado de A*B 3x3 sin manejo de memoria es: " )
 resultadomm
 #Borro el archivo temporal.
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
@@ -147,7 +147,7 @@ if (memoria < minmemoria){
 
 #Llamo a producmv
 resultadomm <- productmm(A, B, N, memoria)
-cat("El resultado de A*B 10x10 con memoria es: " )
+cat("El resultado de A*B 10x10 sin manejo de memoria es: " )
 resultadomm
 #Borro el archivo temporal.
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
@@ -185,7 +185,7 @@ if (memoria < minmemoria){
 
 #Llamo a producmv
 resultadomm <- productmm(A, B, N, memoria)
-cat("El resultado de A*B 10x10 con memoria es: " )
+cat("El resultado de A*B 10x10 sin manejo de memoria es: " )
 resultadomm
 #Borro el archivo temporal.
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
@@ -267,14 +267,9 @@ unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 
 
 #***********************CON MEMORIA MATRIZ*MATRIZ 3X3*********************************
-
-M <- matrix(1:100,ncol=10, byrow=TRUE)
-w <- M %*% M
-w
-
 M <- matrix(1:9,ncol=3, byrow=TRUE)
 w <- M %*% M
-w
+#w
 
 A <- read.csv("data/tblAkv3x3.csv", header = FALSE)
 B <- read.csv("data/tblAkv3x3.csv", header = FALSE)
@@ -326,7 +321,8 @@ memoria <- 11776
 #************************************************************************
 if (memoria > memory.limit()){
   print("La maquina no posee tanta memoria, por lo tanto no se puede realizar las operaciones
-        con esta cantidad de memoria.")
+        con esta cantidad de memoria, sin embargo liberaremos
+        memoria para poder ejecutar la operacion.")
 }
 
 #Minmemoria <- Una fila de la matriz  + La matriz B    + El maximo resultado de una multiplicacion n veces
@@ -334,8 +330,7 @@ minmemoria <- object.size(A[N,])*N + object.size(B) + (object.size(max(A[,ncol(A
 
 memoria <- memlimit(memoria)
 if (memoria < minmemoria){
-  print("No hay suficiente memoria para realizar una operacion, sin embargo liberaremos
-        memoria para poder ejecutar la operacion")
+  print("No hay suficiente memoria para realizar una operacion.")
 }
 
 #Llamo a producmv
@@ -364,7 +359,8 @@ memoria <- 11776
 #************************************************************************
 if (memoria > memory.limit()){
   print("La maquina no posee tanta memoria, por lo tanto no se puede realizar las operaciones
-        con esta cantidad de memoria.")
+        con esta cantidad de memoria, sin embargo liberaremos
+        memoria para poder ejecutar la operacion.")
 }
 
 #Minmemoria <- Una fila de la matriz  + La matriz B    + El maximo resultado de una multiplicacion n veces
