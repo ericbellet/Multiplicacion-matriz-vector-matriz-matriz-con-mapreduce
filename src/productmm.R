@@ -47,10 +47,10 @@ productmm <- function(A, B, N, memoria) {
             indice2 <- indice2 + N
           } 
           indice <- indice + 1
-           # map(chunk)
-            #remove(chunk)
-     
-    }
+           
+      }
+      remove(A)
+      remove(B)
  
 return(reduce(N))
 
@@ -68,8 +68,8 @@ chunks <- function(A, B, N, chunksF, indice){
   #tamres es el tamano necesario para guardar un resultado.
   tamres <- (object.size(max(A[,ncol(A)]) * max(B[,ncol(B)])))*N
   
-  #tamcol es el size de un valor del vector.
-  tamcol <- object.size(B[N,])*N
+  #tamcol es el size de la matriz
+  tamcol <- object.size(B)
   
   
   
@@ -108,23 +108,25 @@ map <- function(chunk){
 #*********************************************************************************
 reduce <- function(N){
   z <- read.csv("tmp/archivotemporal.csv", header = FALSE)
-  m <- matrix(0,nrow = N)
+  m <- matrix(0,nrow = N, ncol = N)
   #Calculamos cuantos reducers se necesitan
   reducers <- 1:N
-  w <- 1
-  acum <- 0
-  for (i in 1:(N*N)) {
-    ind <- 1
-    acum <- 0
-    for (j in ind:(ind +N)-1) {
-      
-      acum <- z[j] + acum
+  k <- 1
+  j <- 1
+  for (i in 1:N) {
+    for (g in 1:N) {
+    if (j == (N+1)){
+      j <- 1
     }
-    ind <- ind + N
-    m[i, K] <- acum  
+    
+    for (h in 1:N) {
+      m[i, j] <- z[k,1] +  m[i, j]
+      k <- k + 1
+      
+    }
+    j <- j + 1
+    }
   }
-  
-  
   remove(z)
   return(m)
   
