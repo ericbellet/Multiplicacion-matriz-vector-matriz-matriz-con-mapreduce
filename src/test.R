@@ -152,7 +152,7 @@ resultadomm
 #Borro el archivo temporal.
 unlink(paste(direccion,"/tmp/archivotemporal.csv", sep = ""))
 
-#********************CON MEMORIA MATRIZ*MATRIZ 10X10 IDENTIDAD*********************************
+#********************SIN MANEJO DE MEMORIA MATRIZ*MATRIZ 10X10 IDENTIDAD*********************************
 
 M <- matrix(1:100,ncol=10, byrow=TRUE)
 w <- M %*% M
